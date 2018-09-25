@@ -1,0 +1,9 @@
+[package]
+name = "rplayer"
+version = "0.1.0"
+authors = ["qinyuanyuan.fy <qinyuanyuan.fy@bytedance.com>"]
+build = "build.rs"
+
+[dependencies]
+lava_rs = {git = "https://github.com/MarcoQin/lava-rs.git"}
+clap = "~2.32"
