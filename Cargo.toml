@@ -1,9 +1,11 @@
 [package]
 name = "rplayer"
 version = "0.1.0"
-authors = ["qinyuanyuan.fy <qinyuanyuan.fy@bytedance.com>"]
+authors = ["Marco Qin <qyyfy2009@gmail.com>"]
 build = "build.rs"
 
 [dependencies]
 lava_rs = {git = "https://github.com/MarcoQin/lava-rs.git"}
 clap = "~2.32"
+ctrlc = { version = "3.0", features = ["termination"] }
+rustyline = "2.1.0"
