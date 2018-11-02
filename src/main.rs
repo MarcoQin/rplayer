@@ -1,6 +1,8 @@
 extern crate clap;
 extern crate ctrlc;
 extern crate lava_rs;
+#[macro_use]
+extern crate lazy_static;
 extern crate rustyline;
 
 use clap::{App, Arg};
@@ -12,7 +14,11 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::thread;
 use std::time;
 
+mod database;
+mod work_space;
+
 fn main() {
+    database::hello();
     let matches = App::new("Rust Music Player")
         .version("0.1")
         .author("Marco Qin")
@@ -54,7 +60,12 @@ fn main() {
             thread::sleep(time::Duration::new(1, 0));
         }
     } else {
+        let history_file = work_space::get_current_work_dir().join("cmd_history.txt");
+        let history_file_path = history_file.to_str().unwrap();
         let mut rl = Editor::<()>::new();
+        if rl.load_history(history_file_path).is_err() {
+            println!("No previous history");
+        }
         loop {
             if player::is_stopping() {
                 println!("no more music to play, exit");
@@ -64,6 +75,7 @@ fn main() {
             match readline {
                 Ok(line) => {
                     println!("get command: {}", line);
+                    rl.add_history_entry(line.as_ref());
                     if line == "q" {
                         break;
                     }
@@ -82,5 +94,6 @@ fn main() {
                 }
             }
         }
+        rl.save_history(history_file_path).unwrap();
     }
 }
