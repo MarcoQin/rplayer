@@ -65,8 +65,7 @@ fn main() {
         }
     }
 
-    player::init_player();
-    player::load_file(file_name.to_string());
+    player::play(file_name.to_string());
     let mut cmd: String = "".to_string();
 
     if !use_control {
@@ -77,7 +76,7 @@ fn main() {
         })
         .expect("Error setting Ctrl-C handler");
         while running.load(Ordering::SeqCst) {
-            if player::is_stopping() {
+            if player::stopping() {
                 break;
             }
             thread::sleep(time::Duration::new(1, 0));
@@ -90,7 +89,7 @@ fn main() {
             println!("No previous history");
         }
         loop {
-            if player::is_stopping() {
+            if player::stopping() {
                 println!("no more music to play, exit");
                 break;
             }
@@ -116,7 +115,7 @@ fn main() {
                                         let path = sub_m.value_of("path").unwrap();
                                         let real_path = Path::new(path);
                                         if real_path.exists() && real_path.is_file() {
-                                            player::load_file(path.to_string());
+                                            player::play(path.to_string());
                                         }
                                     }
                                 } else if let Some(sub_m) =
@@ -133,7 +132,7 @@ fn main() {
                                                 };
                                                 let real_volume =
                                                     if real_volume < 0 { 0 } else { real_volume };
-                                                player::set_volume(real_volume);
+                                                player::set_volume_to(real_volume);
                                             }
                                             Err(_) => {}
                                         }
