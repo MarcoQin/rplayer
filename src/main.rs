@@ -48,7 +48,8 @@ fn main() {
         )
         .subcommand(
             SubCommand::with_name("volume").arg(Arg::with_name("volume").required(true).index(1)),
-        );
+        )
+        .subcommand(SubCommand::with_name("pause"));
 
     let use_control;
 
@@ -137,6 +138,18 @@ fn main() {
                                             Err(_) => {}
                                         }
                                     }
+                                }
+                            }
+                            Err(err) => {
+                                println!("error {:?}", err);
+                            }
+                        }
+                    } else {
+                        arg_vet.push(cmd.as_str());
+                        match command_parser.clone().get_matches_from_safe(arg_vet) {
+                            Ok(sub_commands) => {
+                                if let Some(_) = sub_commands.subcommand_matches("pause") {
+                                    player::pause();
                                 }
                             }
                             Err(err) => {
