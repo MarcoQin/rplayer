@@ -8,6 +8,6 @@ build = "build.rs"
 lava_rs = {git = "https://github.com/MarcoQin/lava-rs.git"}
 clap = "~2.32"
 ctrlc = { version = "3.0", features = ["termination"] }
-rustyline = "2.1.0"
+rustyline = "9.1.2"
 fs_extra = "1.1.0"
 lazy_static = "1.1.0"

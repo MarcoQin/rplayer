@@ -97,7 +97,7 @@ fn main() {
             match readline {
                 Ok(line) => {
                     println!("get command: {}", line);
-                    rl.add_history_entry(line.as_ref());
+                    rl.add_history_entry(line.to_string());
                     let line = line.trim().replace("\\", "");
                     if line == "q" {
                         break;
